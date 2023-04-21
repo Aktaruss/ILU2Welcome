@@ -10,8 +10,13 @@ public class Welcome {
 		return texte.toString();
 	}
 
-	public static boolean stringEstVide(String input) {
+	private static boolean stringEstVide(String input) {
 		return input.trim().length() == 0;
+	}
+
+	private static boolean stringEstMajuscule(String input) {
+		String test = input.toUpperCase();
+		return input.equals(test);
 	}
 
 	public static String welcome(String input) {
@@ -19,7 +24,12 @@ public class Welcome {
 		if (stringEstVide(input)) {
 			texte.append("Hello, my friend");
 			return texte.toString();
-		} else {
+		} else if (stringEstMajuscule(input)) {
+			texte.append("HELLO, ").append(input).append(" !");
+			return texte.toString();
+		}
+
+		else {
 			texte.append(majusculePremier(input));
 			return texte.toString();
 		}
