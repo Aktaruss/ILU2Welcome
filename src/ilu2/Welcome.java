@@ -2,11 +2,14 @@ package ilu2;
 
 public class Welcome {
 
-	private static String majusculePremier(String input) {
+	private static String majusculePremierTousNoms(String input) {
 		StringBuilder texte = new StringBuilder();
-		texte.append("Hello, ");
-		texte.append(input.substring(0, 1).toUpperCase());
-		texte.append(input.substring(1));
+		String[] mots = input.split(",");
+		for (String mot : mots) {
+			texte.append(", ");
+			texte.append(mot.substring(0, 1).toUpperCase());
+			texte.append(mot.substring(1));
+		}
 		return texte.toString();
 	}
 
@@ -21,7 +24,7 @@ public class Welcome {
 
 	public static String welcome(String input) {
 		StringBuilder texte = new StringBuilder();
-		if (stringEstVide(input)) {
+		if (input == null || stringEstVide(input)) {
 			texte.append("Hello, my friend");
 			return texte.toString();
 		} else if (stringEstMajuscule(input)) {
@@ -30,7 +33,7 @@ public class Welcome {
 		}
 
 		else {
-			texte.append(majusculePremier(input));
+			texte.append("Hello").append(majusculePremierTousNoms(input));
 			return texte.toString();
 		}
 	}
