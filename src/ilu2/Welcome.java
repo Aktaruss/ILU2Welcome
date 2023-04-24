@@ -2,15 +2,33 @@ package ilu2;
 
 public class Welcome {
 
-	private static String majusculePremierTousNoms(String input) {
+	public static String welcome(String input) {
 		StringBuilder texte = new StringBuilder();
+		if (input == null || stringEstVide(input)) {
+			texte.append("Hello, my friend");
+			return texte.toString();
+		} else {
+			texte.append(changement(input));
+			System.out.println(texte.toString());
+			return texte.toString();
+		}
+	}
+
+	private static String changement(String input) {
+		StringBuilder texte = new StringBuilder().append("Hello");
+		StringBuilder texteMaj = new StringBuilder().append("HELLO");
+		boolean maj = false, min = false;
 		String[] mots = input.split(",");
 		for (String mot : mots) {
-			texte.append(", ");
-			texte.append(mot.substring(0, 1).toUpperCase());
-			texte.append(mot.substring(1));
+			if (stringEstMajuscule(mot)) {
+				texteMaj.append(", ").append(mot);
+				maj = true;
+			} else {
+				majusculePremier(texte, mot);
+				min = true;
+			}
 		}
-		return texte.toString();
+		return rendu(texte, texteMaj, min, maj);
 	}
 
 	private static boolean stringEstVide(String input) {
@@ -22,20 +40,19 @@ public class Welcome {
 		return input.equals(test);
 	}
 
-	public static String welcome(String input) {
-		StringBuilder texte = new StringBuilder();
-		if (input == null || stringEstVide(input)) {
-			texte.append("Hello, my friend");
-			return texte.toString();
-		} else if (stringEstMajuscule(input)) {
-			texte.append("HELLO, ").append(input).append(" !");
-			return texte.toString();
-		}
-
-		else {
-			texte.append("Hello").append(majusculePremierTousNoms(input));
-			return texte.toString();
-		}
+	private static void majusculePremier(StringBuilder texte, String mot) {
+		texte.append(", ");
+		texte.append(mot.substring(0, 1).toUpperCase());
+		texte.append(mot.substring(1));
 	}
 
+	private static String rendu(StringBuilder texte, StringBuilder texteMaj, boolean min, boolean maj) {
+		if (min && maj) {
+			return texte.append(". AND ").append(texteMaj.toString()).append(" !").toString();
+		} else if (min) {
+			return texte.toString();
+		} else {
+			return texteMaj.append(" !").toString();
+		}
+	}
 }
