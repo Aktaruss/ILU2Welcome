@@ -1,5 +1,7 @@
 package ilu2;
 
+import java.util.ArrayList;
+
 public class Welcome {
 
 	public static String welcome(String input) {
@@ -9,26 +11,22 @@ public class Welcome {
 			return texte.toString();
 		} else {
 			texte.append(changement(input));
-			System.out.println(texte.toString());
 			return texte.toString();
 		}
 	}
 
 	private static String changement(String input) {
-		StringBuilder texte = new StringBuilder().append("Hello");
-		StringBuilder texteMaj = new StringBuilder().append("HELLO");
-		boolean maj = false, min = false;
-		String[] mots = input.split(",");
+		ArrayList<String> min = new ArrayList<>();
+		ArrayList<String> maj = new ArrayList<>();
+		String[] mots = input.split(", ");
 		for (String mot : mots) {
 			if (stringEstMajuscule(mot)) {
-				texteMaj.append(", ").append(mot);
-				maj = true;
+				maj.add(mot);
 			} else {
-				majusculePremier(texte, mot);
-				min = true;
+				min.add(mot);
 			}
 		}
-		return rendu(texte, texteMaj, min, maj);
+		return miseEnPhrase(min, maj);
 	}
 
 	private static boolean stringEstVide(String input) {
@@ -41,18 +39,39 @@ public class Welcome {
 	}
 
 	private static void majusculePremier(StringBuilder texte, String mot) {
-		texte.append(", ");
 		texte.append(mot.substring(0, 1).toUpperCase());
 		texte.append(mot.substring(1));
 	}
 
-	private static String rendu(StringBuilder texte, StringBuilder texteMaj, boolean min, boolean maj) {
-		if (min && maj) {
-			return texte.append(". AND ").append(texteMaj.toString()).append(" !").toString();
-		} else if (min) {
+	private static String miseEnPhrase(ArrayList<String> min, ArrayList<String> maj) {
+		StringBuilder texte = new StringBuilder().append("Hello");
+		StringBuilder texteMaj = new StringBuilder().append("HELLO");
+		int i = 1;
+		for (String element : min) {
+			if (min.size() >= 2 && min.size() == i) {
+				texte.append(" and ");
+				majusculePremier(texte, element);
+			} else {
+				texte.append(", ");
+				majusculePremier(texte, element);
+			}
+			i++;
+		}
+		i = 1;
+		for (String elementMaj : maj) {
+			if (min.size() >= 2 && min.size() == i) {
+				texteMaj.append(" AND ").append(elementMaj);
+			} else {
+				texteMaj.append(", ").append(elementMaj);
+			}
+			i++;
+		}
+		if (min.isEmpty()) {
+			return texteMaj.append(" !").toString();
+		} else if (maj.isEmpty()) {
 			return texte.toString();
 		} else {
-			return texteMaj.append(" !").toString();
+			return texte.append(". AND ").append(texteMaj.toString()).append(" !").toString();
 		}
 	}
 }
