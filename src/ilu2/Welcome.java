@@ -21,9 +21,9 @@ public class Welcome {
 		String[] mots = input.split(", ");
 		for (String mot : mots) {
 			if (stringEstMajuscule(mot)) {
-				maj.add(mot);
+				maj.add(mot.trim());
 			} else {
-				min.add(mot);
+				min.add(mot.trim());
 			}
 		}
 		return miseEnPhrase(min, maj);
