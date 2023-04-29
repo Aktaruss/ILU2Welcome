@@ -46,7 +46,7 @@ public class Welcome {
 
 	private static boolean dansTab(String[] motTab, String mot) {
 		for (String element : motTab) {
-			if (element != null && mot != null && element.equals(mot))
+			if (element != null && element.equals(mot))
 				return true;
 		}
 		return false;
@@ -68,7 +68,7 @@ public class Welcome {
 		int i = 0;
 		int result = 0;
 		for (String element : motTab) {
-			if (element != null && mot != null && element.equals(mot))
+			if (element != null && element.equals(mot))
 				result = i;
 			i++;
 		}
@@ -94,13 +94,17 @@ public class Welcome {
 	}
 
 	private static StringBuilder miseEnPhraseMin(ArrayList<String> min) {
-		StringBuilder texte = new StringBuilder().append("Hello");
+		StringBuilder texte = new StringBuilder();
+		StringBuilder rendu = new StringBuilder();
 		String[] motTab = miseEnTableauString(min);
 		int[] intTab = miseEnTableauInt(motTab, min);
 		int nbOcc;
 		int i = 0;
+		boolean yoda = false;
 		for (String element : motTab) {
 			if (element != null) {
+				if (element.equals("yoda") || element.equals("Yoda"))
+					yoda = true;
 				nbOcc = intTab[correspondanceStringInt(motTab, element)];
 				if (i > 0 && element.equals(dernierTab(motTab))) {
 					texte.append(" and ");
@@ -116,17 +120,25 @@ public class Welcome {
 			}
 			i++;
 		}
-		return texte;
+		if (yoda) {
+			return rendu.append(texte.toString().substring(2)).append(", Hello");
+		} else {
+			return rendu.append("Hello").append(texte.toString());
+		}
 	}
 
 	private static StringBuilder miseEnPhraseMaj(ArrayList<String> maj) {
-		StringBuilder texteMaj = new StringBuilder().append("HELLO");
+		StringBuilder texteMaj = new StringBuilder();
+		StringBuilder rendu = new StringBuilder();
 		String[] motTab = miseEnTableauString(maj);
 		int[] intTab = miseEnTableauInt(motTab, maj);
 		int nbOcc;
 		int i = 0;
+		boolean yoda = false;
 		for (String elementMaj : motTab) {
 			if (elementMaj != null) {
+				if (elementMaj.equals("YODA"))
+					yoda = true;
 				nbOcc = intTab[correspondanceStringInt(motTab, elementMaj)];
 				if (i > 0 && elementMaj.equals(dernierTab(motTab))) {
 					texteMaj.append(" AND ");
@@ -142,7 +154,11 @@ public class Welcome {
 			}
 			i++;
 		}
-		return texteMaj;
+		if (yoda) {
+			return rendu.append(texteMaj.toString().substring(2)).append(", HELLO");
+		} else {
+			return rendu.append("HELLO").append(texteMaj.toString());
+		}
 	}
 
 	private static String miseEnPhrase(ArrayList<String> min, ArrayList<String> maj) {
@@ -153,7 +169,6 @@ public class Welcome {
 		} else if (maj.isEmpty()) {
 			return texte.toString();
 		} else {
-			//System.out.println(texte.append(". AND ").append(texteMaj.toString()).append(" !").toString());
 			return texte.append(". AND ").append(texteMaj.toString()).append(" !").toString();
 		}
 	}
